@@ -28,6 +28,8 @@ gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
 gem 'ostruct'
 gem 'sassc-rails'
 
+gem "mongoid"
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
