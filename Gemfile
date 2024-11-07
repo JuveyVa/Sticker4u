@@ -24,9 +24,11 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 
-gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
+gem 'bootstrap', '~> 5.0.0'
 gem 'ostruct'
 gem 'sassc-rails'
+
+gem 'jquery-rails' 
 
 gem "mongoid"
 
