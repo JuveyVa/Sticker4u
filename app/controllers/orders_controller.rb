@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
       OpenStruct.new(id: 5, name: "Producto 5", price: 15.0, image_url: "https://via.placeholder.com/150"),
       OpenStruct.new(id: 6, name: "Producto 6", price: 25.0, image_url: "https://via.placeholder.com/150"),
       OpenStruct.new(id: 7, name: "Producto 7", price: 35.0, image_url: "https://via.placeholder.com/150"),
-      OpenStruct.new(id: 8, name: "Producto 8", price: 45.0, image_url: "https://via.placeholder.com/150")
+      OpenStruct.new(id: 8, nam: "Producto 8", price: 45.0, image_url: "https://via.placeholder.com/150")
     ]
   end
 
