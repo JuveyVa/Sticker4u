@@ -6,4 +6,5 @@ class Product
   field :image, type: String
   field :inventory, type: Integer
   field :price, type: Float
+  has_and_belongs_to_many :tickets
 end
