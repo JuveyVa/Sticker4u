@@ -9,4 +9,11 @@
     <%= ticket.total %>
   </p>
 
+  <ul>
+    <% ticket.products.each do |product| %>
+      <li>
+        <%= product.name %>
+      </li>
+     <% end %> 
+  </ul>
 </div>
