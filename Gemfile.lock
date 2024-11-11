@@ -84,13 +84,9 @@ GEM
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
-    bootstrap (5.3.3)
-      autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 2.11.8, < 3)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
-      
     bson (5.0.1)
     builder (3.3.0)
     capybara (3.40.0)
@@ -112,6 +108,7 @@ GEM
     drb (2.2.1)
     erubi (1.13.0)
     execjs (2.10.0)
+    ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x64-mingw-ucrt)
     ffi (1.17.0-x86_64-linux-gnu)
     globalid (1.2.1)
@@ -160,12 +157,13 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     nio4r (2.7.4)
+    nokogiri (1.16.7-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.16.7-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     ostruct (0.6.0)
-    popper_js (2.11.8)
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
@@ -266,20 +264,19 @@ GEM
     zeitwerk (2.7.1)
 
 PLATFORMS
+  arm64-darwin-23
   x64-mingw-ucrt
   x86_64-linux
 
 DEPENDENCIES
   bootsnap
-  bootstrap (~> 5.3, >= 5.3.3)
   bootstrap-sass (~> 3.4, >= 3.4.1)
   capybara
   debug
   importmap-rails
   jbuilder
-  ostruct
-  
   mongoid
+  ostruct
   puma (>= 5.0)
   rails (~> 7.1.0)
   sassc-rails

@@ -1,0 +1,27 @@
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card img {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    object-fit: cover;
+  }
+  
+  .card-title {
+    font-size: 1.1em;
+    margin-top: 0.5em;
+  }
+  
+  .input-group {
+    max-width: 120px;
+    margin: auto;
+  }
+  
+  .total-bar {
+    font-size: 1.2em;
+    background-color: #f8f9fa;
+    padding: 1em;
+  }
+  

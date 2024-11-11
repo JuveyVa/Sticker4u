@@ -3,8 +3,19 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.all
+    # Definir 8 productos con precios específicos e imagenes de prueba
+    @products = [
+      OpenStruct.new(id: 1, name: "Producto 1", price: 10.0, image_url: "https://via.placeholder.com/150"),
+      OpenStruct.new(id: 2, name: "Producto 2", price: 20.0, image_url: "https://via.placeholder.com/150"),
+      OpenStruct.new(id: 3, name: "Producto 3", price: 30.0, image_url: "https://via.placeholder.com/150"),
+      OpenStruct.new(id: 4, name: "Producto 4", price: 40.0, image_url: "https://via.placeholder.com/150"),
+      OpenStruct.new(id: 5, name: "Producto 5", price: 15.0, image_url: "https://via.placeholder.com/150"),
+      OpenStruct.new(id: 6, name: "Producto 6", price: 25.0, image_url: "https://via.placeholder.com/150"),
+      OpenStruct.new(id: 7, name: "Producto 7", price: 35.0, image_url: "https://via.placeholder.com/150"),
+      OpenStruct.new(id: 8, name: "Producto 8", price: 45.0, image_url: "https://via.placeholder.com/150")
+    ]
   end
+
 
   # GET /orders/1 or /orders/1.json
   def show
