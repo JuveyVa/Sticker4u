@@ -1,0 +1,18 @@
+<div class="container mt-5 text-center">
+  <h2>Venta realizada!</h2>
+  <!-- Imagen de palomita de confirmación -->
+  <div class="my-4">
+    <img src="<%= asset_path('checkmark_icon.png') %>" alt="Venta realizada" width="100">
+  </div>
+
+  <div class="list-group mb-3">
+    <% @order.products.each do |product| %>
+      <div class="list-group-item">
+        <%= product.name %>: <%= product.quantity %> pieza(s), total: $<%= product.price * product.quantity %>
+      </div>
+    <% end %>
+  </div>
+
+  <h3>Total de venta: $<%= @order.total %></h3>
+  <button class="btn btn-secondary mt-4" onclick="goBack()">Volver</button>
+</div>

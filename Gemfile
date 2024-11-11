@@ -24,11 +24,17 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 
-gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
+gem 'bootstrap', '~> 5.0.0'
 gem 'ostruct'
 gem 'sassc-rails'
 
+gem 'jquery-rails' 
+
 gem "mongoid"
+
+gem 'chartkick'
+gem 'groupdate'
+
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
