@@ -6,8 +6,5 @@ class DashboardController < ApplicationController
         "2020-03-01" => 7,
         "2020-04-01" => 15
       }
-      
     end
 end
-
-
