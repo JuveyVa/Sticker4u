@@ -17,6 +17,16 @@ class OrdersController < ApplicationController
   end
 
 
+  # GET /orders/summary
+  def summary
+    @selected_products = [
+      OpenStruct.new(id: 1, name: "Producto 1", quantity: 2, price: 10.0),
+      OpenStruct.new(id: 2, name: "Producto 2", quantity: 1, price: 20.0)
+    ]
+    @total = @selected_products.sum { |product| product.quantity * product.price }
+  end
+
+
   # GET /orders/1 or /orders/1.json
   def show
   end

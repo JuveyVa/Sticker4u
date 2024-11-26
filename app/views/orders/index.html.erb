@@ -1,4 +1,7 @@
 <div class="container mt-4">
+
+ # <%= link_to "Go to summary", summary_orders_path, class: "btn btn-primary" %>
+
   <!-- Barra de búsqueda -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <input type="text" class="form-control w-50" placeholder="Buscar productos..." id="product-search">
@@ -16,7 +19,7 @@
           <img src="<%= product.image_url %>" class="card-img-top" alt="<%= product.name %>">
           <div class="card-body">
             <h5 class="card-title"><%= product.name %></h5>
-            <p class="card-text">$<%= '%.2f' % product.price %></p>
+            <p class="card-text">$<%= '%.2f' % product.price %> TOTAL: <%= product.price * 2%> </p>
             <div class="input-group justify-content-center mb-2">
               <div class="input-group-prepend">
                 <button class="btn btn-outline-secondary" onclick="updateQuantity(<%= product.id %>, -1)">-</button>
@@ -35,7 +38,7 @@
   <!-- Barra de Total -->
   <div class="d-flex justify-content-between align-items-center bg-light p-3 mt-4">
     <span class="h4">Total: $<span id="total-amount">0.00</span></span>
-    <button class="btn btn-primary btn-lg" onclick="goToSummary()">+</button>
+    <button class="btn btn-primary btn-lg" onclick="goToSummary()">+</button>               //Aqui hay que agregar el boton 
   </div>
 </div>
 
@@ -64,12 +67,12 @@
   }
 
   function toggleFilters() {
-    // Aquí se mostraría el popup de filtros (actualmente sin funcionalidad)
-    alert("Popup de filtros (funcionalidad futura)");
+    # Aquí se mostraría el popup de filtros (actualmente sin funcionalidad)
+    alert("Popup de filtros (funcionalidad futura, aun no jala)");
   }
 
   function goToSummary() {
-    // Redirige a la vista de resumen (esto debería enlazar con la siguiente vista en el flujo de venta)
-    alert("Redirigir a la vista de resumen (funcionalidad futura)");
+    # Redirige a la vista de resumen
+  window.location.href = "<%= summary_orders_path %>";
   }
 </script>

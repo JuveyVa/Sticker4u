@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   # Rutas de los recursos principales
   resources :tickets
-  resources :orders
+  resources :orders do 
+    collection do 
+        get :summary
+      end
+    end
+  
   resources :products
   resources :pruebas
 
