@@ -1,22 +1,22 @@
 Rails.application.routes.draw do
-  # Rutas de los recursos principales
+  # Ruta raíz que apunta a home#index
+  root 'home#index'
+
+  # Otras rutas
   resources :tickets
   resources :orders
   resources :products
   resources :pruebas
 
-  # Ruta de inicio para "startup"
   get 'startup/index'
+  get 'dashboard/index', to: 'dashboard#index', as: 'dashboard'
+  get 'ventas/index', to: 'ventas#index', as: 'ventas'
+  get 'productos/index', to: 'productos#index', as: 'productos'
 
-  # Rutas para el controlador "dashboard"
   scope :dashboard do
     get 'index', to: 'dashboard#index'
     post 'filter_data', to: 'dashboard#filter_data'
   end
 
-  # Ruta de estado de la aplicación
   get 'up', to: 'rails/health#show', as: :rails_health_check
-
-  # Ruta raíz
-  root "dashboard#index"
 end
