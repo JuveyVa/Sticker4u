@@ -1,9 +1,9 @@
-<!-- app/views/dashboard/index.html.erb -->
 <div class="container mt-5">
   <h1 class="text-center">Dashboard Index</h1>
   <p class="lead text-center">Bienvenidx a la vista de Dashboard</p>
 
   <div class="row">
+    <!-- Productos -->
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
@@ -13,96 +13,68 @@
               Elegir...
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a class="dropdown-item" href="#">
+              <% @products.each do |product| %>
+                <li>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
-                    <label class="form-check-label" for="flexCheckDefault1">
-                      Default checkbox
+                    <input class="form-check-input" type="checkbox" name="products[]" value="<%= product.id %>" id="product_<%= product.id %>">
+                    <label class="form-check-label" for="product_<%= product.id %>">
+                      <%= product.name %>
                     </label>
                   </div>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                    <label class="form-check-label" for="flexCheckDefault2">
-                      Default checkbox
-                    </label>
-                  </div>
-                </a>
-              </li>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Tickets -->
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Tickets</h5>
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-            Elegir...
+              Elegir...
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-              <li>
-                <a class="dropdown-item" href="#">
+              <% @tickets.each do |ticket| %>
+                <li>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
-                    <label class="form-check-label" for="flexCheckDefault3">
-                      Default checkbox
+                    <input class="form-check-input" type="checkbox" name="tickets[]" value="<%= ticket.id %>" id="ticket_<%= ticket.id %>">
+                    <label class="form-check-label" for="ticket_<%= ticket.id %>">
+                      Ticket <%= ticket.id %> - Fecha: <%= ticket.date %>
                     </label>
                   </div>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
-                    <label class="form-check-label" for="flexCheckDefault4">
-                      Default checkbox
-                    </label>
-                  </div>
-                </a>
-              </li>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Categorías -->
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Categorias</h5>
+          <h5 class="card-title">Categorías</h5>
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
-            Elegir...
+              Elegir...
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-              <li>
-                <a class="dropdown-item" href="#">
+              <% @categories.each do |categoria| %>
+                <li>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5">
-                    <label class="form-check-label" for="flexCheckDefault5">
-                      Default checkbox
+                    <input class="form-check-input" type="checkbox" name="categories[]" value="<%= categoria.id %>" id="categoria_<%= categoria.id %>">
+                    <label class="form-check-label" for="categoria_<%= categoria.id %>">
+                      <%= categoria.categoria %>
                     </label>
                   </div>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault6">
-                    <label class="form-check-label" for="flexCheckDefault6">
-                      Default checkbox
-                    </label>
-                  </div>
-                </a>
-              </li>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
@@ -111,9 +83,91 @@
   </div>
 
   <center>
-    <button type="button" class="btn btn-primary btn-lg">Generar Gráfica</button>
-  </center>
+  <button type="button" class="btn btn-primary btn-lg" onclick="submitSelections()">Generar Gráficas</button>
+</center>
 
-  <%= line_chart @data %>
 
+<script>
+function submitSelections() {
+  const selectedProducts = [];
+  const selectedTickets = [];
+  const selectedCategories = [];
+
+  // Obtener productos seleccionados
+  document.querySelectorAll('input[name="products[]"]:checked').forEach(input => {
+    selectedProducts.push(input.value);
+  });
+
+  // Obtener tickets seleccionados
+  document.querySelectorAll('input[name="tickets[]"]:checked').forEach(input => {
+    selectedTickets.push(input.value);
+  });
+
+  // Obtener categorías seleccionadas
+  document.querySelectorAll('input[name="categories[]"]:checked').forEach(input => {
+    selectedCategories.push(input.value);
+  });
+
+  // Enviar datos al servidor
+  fetch('/dashboard/filter_data', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+    },
+    body: JSON.stringify({
+      selected_products: selectedProducts,
+      selected_tickets: selectedTickets,
+      selected_categories: selectedCategories
+    })
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Datos recibidos del servidor:", data);
+      
+      // Actualizar gráfica de pastel
+      Chartkick.charts["categories-pie-chart"].updateData(data.categories_pie_data);
+      
+      // Actualizar scatterplot
+      Chartkick.charts["tickets-scatter-chart"].updateData(data.tickets_scatter_data);
+      
+      // Actualizar gráfica de barras
+      Chartkick.charts["categories-bar-chart"].updateData(data.categories_bar_data);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+</script>
+
+
+  <%=@data%>
+  
+    <%=@total%>
+    <div class="row">
+    <!-- Pie Chart -->
+    <div class="col-md-6">
+      <%= pie_chart [], id: "categories-pie-chart", height: "500px", library: { title: { text: "Productos por Categoría", align: "center" } } %>
+    </div>
+  
+    <!-- Scatterplot -->
+    <div class="col-md-6">
+      <%= scatter_chart [], id: "tickets-scatter-chart", height: "500px", colors: ["#3366cc"], library: { title: { text: "Tickets Totales por Fecha", align: "center" } } %>
+    </div>
+  </div>
+  
+  <div class="row">
+    <!-- Bar Chart -->
+    <div class="col-md-12">
+      <%= bar_chart [], id: "categories-bar-chart", height: "500px", colors: ["#ff9900"], library: { title: { text: "Conteo de Productos por Categoría", align: "center" } } %>
+    </div>
+  </div>
+  
+  
 </div>
+
