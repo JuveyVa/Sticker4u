@@ -91,6 +91,10 @@ GEM
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
+    bootstrap (5.0.2)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 2.9.2, < 3)
+      sassc-rails (>= 2.0.0)
     bson (5.0.1)
     builder (3.3.0)
     capybara (3.40.0)
@@ -175,6 +179,7 @@ GEM
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     ostruct (0.6.0)
+    popper_js (2.11.8)
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
@@ -280,8 +285,6 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
-  bootstrap-sass (~> 3.4, >= 3.4.1)
-
   bootstrap (~> 5.0.0)
   capybara
   chartkick
