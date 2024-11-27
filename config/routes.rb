@@ -1,19 +1,22 @@
 Rails.application.routes.draw do
-  get 'startup/index'
-  
+  # Ruta raíz que apunta a home#index
+  root 'home#index'
+
+  # Otras rutas
   resources :tickets
-  
   resources :orders
-  
   resources :products
-  
   resources :pruebas
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  get 'startup/index'
+  get 'dashboard/index', to: 'dashboard#index', as: 'dashboard'
+  get 'ventas/index', to: 'ventas#index', as: 'ventas'
+  get 'productos/index', to: 'productos#index', as: 'productos'
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  scope :dashboard do
+    get 'index', to: 'dashboard#index'
+    post 'filter_data', to: 'dashboard#filter_data'
+  end
+
+  get 'up', to: 'rails/health#show', as: :rails_health_check
 end
