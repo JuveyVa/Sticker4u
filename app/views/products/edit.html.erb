@@ -1,10 +1,76 @@
-<h1>Editing product</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Product</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      background-color: #f8f9fa;
+    }
 
-<%= render "form", product: @product %>
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-<br>
+    .field-spacing {
+      margin-bottom: 20px;
+    }
 
-<div>
-  <%= link_to "Show this product", @product %> |
-  <%= link_to "Back to products", products_path %>
+    .button-spacing {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="w-full my-4">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-md-6 col-lg-8" style="width: 150rex;">
+      <h1 class="text-center mb-4">Editing Product</h1>
+      <div class="card p-5 shadow-lg">
+        <div class="card-body">
+          <%= form_with model: @product, url: product_path(@product), method: :patch, local: true do |form| %>
+            <div class="field-spacing">
+              <%= form.label :name, 'Name' %>
+              <%= form.text_field :name, class: "form-control" %>
+            </div>
+            <div class="field-spacing">
+              <%= form.label :description, 'Description' %>
+              <%= form.text_field :description, class: "form-control" %>
+            </div>
+            <div class="field-spacing">
+              <%= form.label :image, 'Image' %>
+              <%= form.text_field :image, class: "form-control" %>
+            </div>
+            <div class="field-spacing">
+              <%= form.label :inventory, 'Inventory' %>
+              <%= form.number_field :inventory, class: "form-control" %>
+            </div>
+            <div class="field-spacing">
+              <%= form.label :price, 'Price' %>
+              <%= form.number_field :price, class: "form-control" %>
+            </div>
+            <div class="text-center mt-4">
+              <%= form.submit 'Update Product', class: 'btn btn-primary btn-lg' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="text-center button-spacing">
+        <%= link_to "Back to products", products_path, class: 'btn btn-secondary btn-lg' %>
+      </div>
+    </div>
+  </div>
 </div>
+
+</body>
+</html>
