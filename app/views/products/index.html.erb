@@ -20,16 +20,16 @@
           <td><%= product.description %></td>
           <td><%= product.inventory %></td>
           <td><%= product.price %></td>
-          <td class="row">
-              <%= link_to "Editar", edit_product_path(product), class: "col-md-5 btn btn-primary me-2", style: "margin-right: 10px;" %>
-              <%= button_to "Eliminar", product, method: :delete, class: "col-md-5 btn btn-danger", style: "margin-right: 10px;" %>
-        </td>
+          <td class="d-flex justify-content-center gap-3">
+              <%= link_to "Editar", edit_product_path(product), class: "btn btn-primary" %>
+              <%= button_to "Eliminar", product, method: :delete, class: "btn btn-danger" %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 
   <div class="text-center">
-    <%= link_to "Nuevo Producto", new_product_path, class: "btn btn-default" %>
+    <%= link_to "Nuevo Producto", new_product_path, class: "btn btn-primary" %>
   </div>
 </div>
