@@ -1,14 +1,40 @@
-<p style="color: green"><%= notice %></p>
+<div class="container my-4">
+<div class="d-flex justify-content-center align-items-center min-vh-100 flex-column">
+  <p style="color: green"><%= notice %></p>
 
-<h1>Tickets</h1>
+  <h1 class="text-center">Tickets</h1>
 
-<div id="tickets">
-  <% @tickets.each do |ticket| %>
-    <%= render ticket %>
-    <p>
-      <%= link_to "Show this ticket", ticket %>
-    </p>
-  <% end %>
+  <div id="tickets" class="table-responsive w-75">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Products</th>
+          <th>Date</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tickets.each do |ticket| %>
+          <tr>
+            <td>
+              <ul>
+                <% ticket.products.each do |product| %>
+                  <li><%= product.name %></li>
+                <% end %>
+              </ul>
+            </td>
+            <td><%= ticket.date %></td>
+            <td><%= number_to_currency(ticket.total, unit: "", delimiter: ",") %></td>
+            <td><%= link_to "Show this ticket", ticket, class: "btn btn-primary btn-sm me-2" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-center">
+  <%= link_to "New ticket", new_ticket_path, class: "btn btn-success mt-3" %>
+  </div>
+</div>
 </div>
 
-<%= link_to "New ticket", new_ticket_path %>
