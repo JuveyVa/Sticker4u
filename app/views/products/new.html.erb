@@ -1,9 +1,8 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Product</title>
+  <title>Nuevo Producto</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <style>
     body {
@@ -16,12 +15,13 @@
     }
 
     .card {
+      width: 50%; /* Ajusta el ancho del formulario */
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .field-spacing {
-      margin-bottom: 20px;
+      margin-bottom: 20px; /* Espaciado entre campos */
     }
 
     .button-spacing {
@@ -32,10 +32,10 @@
 <body>
 
 <div class="w-full my-4">
-  <div class="row justify-content-center align-items-center">
+  <div class="row justify-content-center">
     <div class="col-md-6 col-lg-8" style="width: 150rex;">
       <h1 class="text-center mb-4">Nuevo Producto</h1>
-      <div class="card p-5 shadow-lg">
+      <div class="card p-5 shadow-lg" style="width: 150rex;">
         <div class="card-body">
           <%= form_with model: @product, url: products_path, method: :post, local: true do |form| %>
             <div class="field-spacing">
@@ -43,7 +43,7 @@
               <%= form.text_field :name, class: "form-control" %>
             </div>
             <div class="field-spacing">
-              <%= form.label :description, 'Descripcion' %>
+              <%= form.label :description, 'Descripción' %>
               <%= form.text_field :description, class: "form-control" %>
             </div>
             <div class="field-spacing">
@@ -58,6 +58,10 @@
               <%= form.label :price, 'Precio' %>
               <%= form.number_field :price, class: "form-control" %>
             </div>
+            <div class="field-spacing">
+              <%= form.label :categoria_id, "Categoría" %>
+              <%= form.collection_select :categoria_id, Categoria.all, :id, :categoria, prompt: "Seleccione una categoría", class: "form-control" %>
+            </div>
             <div class="text-center mt-4">
               <%= form.submit 'Crear Producto', class: 'btn btn-primary btn-lg' %>
             </div>
@@ -65,7 +69,7 @@
         </div>
       </div>
       <div class="text-center button-spacing">
-        <button class="btn btn-primary btn-lg" onclick="window.location.href='/products'">Volver a productos</button>
+        <button class="btn btn-secondary btn-lg" onclick="window.location.href='/products'">Volver a productos</button>
       </div>
     </div>
   </div>
