@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   get 'dashboard/index', to: 'dashboard#index', as: 'dashboard'
   get 'ventas/index', to: 'ventas#index', as: 'ventas'
   get 'productos/index', to: 'productos#index', as: 'productos'
+  get 'predictions', to: 'predictions#index', as: 'predictions'
+  scope '/predictions' do
+    get 'tickets/:id/products', to: 'tickets#show_products', as: 'ticket_show_products'
+  end
 
   scope :dashboard do
     get 'index', to: 'dashboard#index'
