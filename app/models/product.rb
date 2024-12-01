@@ -40,4 +40,7 @@ class Product
     count = Ticket.where(:product_ids.all => [product_id, other_product_id]).count
     (count.to_f / total_tickets).round(2)
   end
+  def sales_count
+    Ticket.where(product_ids: self.id).count
+  end
 end

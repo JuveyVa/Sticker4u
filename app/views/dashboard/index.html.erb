@@ -83,15 +83,36 @@
   </div>
 
   <center>
-  <button type="button" class="btn btn-primary btn-lg" onclick="submitSelections()">Generar Gráficas</button>
-</center>
+    <button type="button" class="btn btn-primary btn-lg" onclick="submitSelections()">Generar Gráficas</button>
+  </center>
+
+  <div class="row">
+    <!-- Pie Chart -->
+    <div class="col-md-6">
+      <%= pie_chart [], id: "categories-pie-chart", height: "500px", library: { title: { text: "Productos por Categoría", align: "center" } } %>
+    </div>
+
+    <!-- Scatterplot -->
+    <div class="col-md-6">
+      <%= scatter_chart [], id: "tickets-scatter-chart", height: "500px", colors: ["#3366cc"], library: { title: { text: "Tickets Totales por Fecha", align: "center" } } %>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Line Chart para mostrar la evolución de los tickets -->
+    <div class="col-md-12">
+      <%= line_chart [], id: "tickets-line-chart", height: "500px", colors: ["#ff6600"], library: { title: { text: "Evolución de Tickets a lo Largo del Tiempo", align: "center" } } %>
+    </div>
+  </div>
+</div>
 
 <script>
 function submitSelections() {
-  const selectedProducts = [];
-  const selectedTickets = [];
-  const selectedCategories = [];
-
+  console .log("Botón presionado");
+  var selectedProducts = []; // Obtén los datos de los productos seleccionados
+  var selectedTickets = [];  // Obtén los datos de los tickets seleccionados
+  var selectedCategories = []; // Obtén los datos de las categorías seleccionadas
+  
   // Obtener productos seleccionados
   document.querySelectorAll('input[name="products[]"]:checked').forEach(input => {
     selectedProducts.push(input.value);
@@ -106,7 +127,7 @@ function submitSelections() {
   document.querySelectorAll('input[name="categories[]"]:checked').forEach(input => {
     selectedCategories.push(input.value);
   });
-
+  
   // Enviar datos al servidor
   fetch('/dashboard/filter_data', {
     method: 'POST',
@@ -128,46 +149,17 @@ function submitSelections() {
     })
     .then(data => {
       console.log("Datos recibidos del servidor:", data);
-
-      // Actualizar gráficos con los datos
-      if (data.categories_pie_data) {
-        console.log("Datos del gráfico de pie:", data.categories_pie_data);
-        Chartkick.charts["categories-pie-chart"].updateData(data.categories_pie_data);
-      }
-
-      if (data.tickets_scatter_data) {
-        console.log("Datos del gráfico de dispersión:", data.tickets_scatter_data);
-        Chartkick.charts["tickets-scatter-chart"].updateData(data.tickets_scatter_data);
-      }
-
-      if (data.products_line_data) {
-        console.log("Datos del gráfico de líneas:", data.products_line_data);
-        Chartkick.charts["products-line-chart"].updateData(data.products_line_data);
-      }
+      
+      // Actualizar gráfica de pastel
+      Chartkick.charts["categories-pie-chart"].updateData(data.categories_pie_data);
+      
+      // Actualizar scatterplot
+      Chartkick.charts["tickets-scatter-chart"].updateData(data.tickets_scatter_data);
+      
+      Chartkick.charts["tickets-line-chart"].updateData(data.tickets_line_data);
     })
-    .catch(error => console.error('Error:', error));
-}
-
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+  }
 </script>
-
-  <%= @data %>
-  
-  <%= @total %>
-  <div class="row">
-    <!-- Pie Chart -->
-    <div class="col-md-6">
-      <%= pie_chart [], id: "categories-pie-chart", height: "500px", library: { title: { text: "Productos por Categoría", align: "center" } } %>
-    </div>
-  
-    <!-- Scatterplot -->
-    <div class="col-md-6">
-      <%= scatter_chart [], id: "tickets-scatter-chart", height: "500px", colors: ["#3366cc"], library: { title: { text: "Tickets Totales por Fecha", align: "center" } } %>
-    </div>
-  </div>
-  
-  <div class="col-md-12">
-  <%= line_chart [], id: "products-line-chart", height: "500px", library: { title: { text: "Evolución de Productos por Categoría", align: "center" } } %>
-</div>
-</div>
-</div>
-</div>
