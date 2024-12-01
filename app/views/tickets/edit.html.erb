@@ -1,10 +1,9 @@
-<h1>Editing ticket</h1>
+<h1 class="text-center">Edit Ticket</h1>
 
 <%= render "form", ticket: @ticket %>
 
-<br>
-
-<div>
-  <%= link_to "Show this ticket", @ticket %> |
-  <%= link_to "Back to tickets", tickets_path %>
+<div class="container my-4 d-flex justify-content-center">
+  <div class="mx-2">
+    <%= link_to "Back to Tickets", tickets_path, class: "btn btn-primary" %>
+  </div>
 </div>

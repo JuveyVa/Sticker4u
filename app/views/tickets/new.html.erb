@@ -1,9 +1,7 @@
-<h1>New ticket</h1>
+<h1 class="text-center">New Ticket</h1>
 
 <%= render "form", ticket: @ticket %>
 
-<br>
-
-<div>
-  <%= link_to "Back to tickets", tickets_path %>
+<div class="container my-4 d-flex justify-content-center">
+  <%= link_to "Back to Tickets", tickets_path, class: "btn btn-primary" %>
 </div>
