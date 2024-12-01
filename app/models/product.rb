@@ -21,8 +21,8 @@ class Product
 
   # Total de tickets
   def self.total_tickets
-    Ticket.count
-  end
+    self.tickets.count
+    end
 
   # Sop(x): frecuencia relativa del producto
   def self.sop(product_id)
