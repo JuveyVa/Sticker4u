@@ -1,10 +1,25 @@
-<p style="color: green"><%= notice %></p>
+<h1 class="text-center">Ticket Information</h1>
 
-<%= render @ticket %>
+<div class="container d-flex flex-column align-items-center justify-content-start" style="min-height: 100vh;">
+  <p style="color: green"><%= notice %></p>
 
-<div>
-  <%= link_to "Edit this ticket", edit_ticket_path(@ticket) %> |
-  <%= link_to "Back to tickets", tickets_path %>
+  <div class="text-center mb-4">
+    <%= render @ticket %>
+  </div>
 
-  <%= button_to "Destroy this ticket", @ticket, method: :delete %>
+  <div class="d-flex flex-column align-items-center">
+    <div class="mb-3 d-flex gap-2">
+      <%= link_to "Edit Ticket", edit_ticket_path(@ticket), class: "btn btn-primary btn-sm" %>
+      <%= link_to "Back to Tickets", tickets_path, class: "btn btn-primary btn-sm" %>
+    </div>
+    <div>
+      <%= button_to "Delete Ticket", @ticket, method: :delete, class: "btn btn-danger btn-sm mt-2" %>
+    </div>
+  </div>
 </div>
+
+<style>
+  ul {
+    list-style-position: inside;
+  }
+</style>

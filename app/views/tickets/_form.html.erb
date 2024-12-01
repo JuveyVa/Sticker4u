@@ -1,32 +1,45 @@
-<%= form_with(model: ticket) do |form| %>
+<%= form_with(model: ticket, class: "needs-validation") do |form| %>
   <% if ticket.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
-
-      <ul>
-        <% ticket.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="container my-4">
+      <div class="alert alert-danger">
+        <h4><%= pluralize(ticket.errors.count, "error") %> prohibited this ticket from being saved:</h4>
+        <ul>
+          <% ticket.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :date, style: "display: block" %>
-    <%= form.date_field :date %>
-  </div>
+  <div class="container my-4 d-flex justify-content-center">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <%= form.label :date, class: "form-label fw-bold" %>
+        <%= form.date_field :date, class: "form-control" %>
+      </div>
 
-  <div>
-    <%= form.label :total, style: "display: block" %>
-    <%= form.text_field :total %>
-  </div>
+      <div class="mb-3">
+        <%= form.label :total, class: "form-label fw-bold" %>
+        <%= form.text_field :total, class: "form-control" %>
+      </div>
 
-  <div>
-    <%= form.label :products, "Products", style: "display: block" %>
-    <%= form.collection_select :product_ids, @products, :id, :name, { prompt: "Select products" }, {multiple: true} %>
-  </div>
+      <div class="mb-3">
+        <label for="products" class="form-label fw-bold">Products</label>
+        <div id="products">
+          <% @products.each do |product| %>
+            <div class="form-check">
+              <%= check_box_tag "ticket[product_ids][]", product.id, ticket.product_ids.include?(product.id), class: "form-check-input", id: "product_#{product.id}" %>
+              <%= label_tag "product_#{product.id}", product.name, class: "form-check-label" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
 
-  <div>
-    <%= form.submit %>
+      <div class="mt-4 text-center">
+        <%= form.submit "Save Ticket", class: "btn btn-success" %>
+      </div>
+    </div>
   </div>
 <% end %>
+

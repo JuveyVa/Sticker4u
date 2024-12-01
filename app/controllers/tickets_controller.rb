@@ -19,6 +19,7 @@ class TicketsController < ApplicationController
 
   # GET /tickets/1/edit
   def edit
+    @products = Product.all
   end
 
   # POST /tickets or /tickets.json
@@ -27,8 +28,8 @@ class TicketsController < ApplicationController
 
     respond_to do |format|
       if @ticket.save
-        format.html { redirect_to @ticket, notice: "Ticket was successfully created." }
-        format.json { render :show, status: :created, location: @ticket }
+        format.html { redirect_to tickets_path, notice: "Ticket was successfully created." }
+        format.json { render :index, status: :created, location: @ticket }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
@@ -40,8 +41,8 @@ class TicketsController < ApplicationController
   def update
     respond_to do |format|
       if @ticket.update(ticket_params)
-        format.html { redirect_to @ticket, notice: "Ticket was successfully updated." }
-        format.json { render :show, status: :ok, location: @ticket }
+        format.html { redirect_to tickets_path, notice: "Ticket was successfully updated." }
+        format.json { render :index, status: :ok, location: @ticket }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
@@ -54,7 +55,7 @@ class TicketsController < ApplicationController
     @ticket.destroy!
 
     respond_to do |format|
-      format.html { redirect_to tickets_path, status: :see_other, notice: "Ticket was successfully destroyed." }
+      format.html { redirect_to tickets_path, status: :see_other, notice: "Ticket was successfully deleted." }
       format.json { head :no_content }
     end
   end
@@ -62,7 +63,7 @@ class TicketsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
-      @ticket = Ticket.find(params[:id])
+      @ticket = Ticket.includes(:products).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
