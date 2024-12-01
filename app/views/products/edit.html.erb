@@ -34,39 +34,39 @@
 <div class="w-full my-4">
   <div class="row justify-content-center align-items-center">
     <div class="col-md-6 col-lg-8" style="width: 150rex;">
-      <h1 class="text-center mb-4">Editing Product</h1>
+      <h1 class="text-center mb-4">Editar Producto</h1>
       <div class="card p-5 shadow-lg">
         <div class="card-body">
           <%= form_with model: @product, url: product_path(@product), method: :patch, local: true do |form| %>
             <div class="field-spacing">
-              <%= form.label :name, 'Name' %>
+              <%= form.label :name, 'Nombre' %>
               <%= form.text_field :name, class: "form-control" %>
             </div>
             <div class="field-spacing">
-              <%= form.label :description, 'Description' %>
+              <%= form.label :description, 'Descripcion' %>
               <%= form.text_field :description, class: "form-control" %>
             </div>
             <div class="field-spacing">
-              <%= form.label :image, 'Image' %>
+              <%= form.label :image, 'Imagen' %>
               <%= form.text_field :image, class: "form-control" %>
             </div>
             <div class="field-spacing">
-              <%= form.label :inventory, 'Inventory' %>
+              <%= form.label :inventory, 'Inventario' %>
               <%= form.number_field :inventory, class: "form-control" %>
             </div>
             <div class="field-spacing">
-              <%= form.label :price, 'Price' %>
+              <%= form.label :price, 'Precio' %>
               <%= form.number_field :price, class: "form-control" %>
             </div>
             <div class="text-center mt-4">
-              <%= form.submit 'Update Product', class: 'btn btn-primary btn-lg' %>
+              <%= form.submit 'Actualizar Producto', class: 'btn btn-primary btn-lg' %>
             </div>
           <% end %>
         </div>
       </div>
 
       <div class="text-center button-spacing">
-        <%= link_to "Back to products", products_path, class: 'btn btn-secondary btn-lg' %>
+        <%= link_to "Volver a productos", products_path, class: 'btn btn-secondary btn-lg' %>
       </div>
     </div>
   </div>
