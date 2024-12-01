@@ -1,0 +1,20 @@
+<div class="container mt-5 text-center">
+  <h2>Venta realizada!</h2>
+  <div class="my-4">
+    <img src="<%= asset_path('checkmark_icon.png') %>" alt="Venta realizada" width="100">
+  </div>
+
+  <div class="list-group mb-3">
+    <% @order.products.each do |product| %>
+      <div class="list-group-item">
+        <%= product.name %>: <%= product.quantity %> pieza(s) - $<%= product.price * product.quantity %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="alert alert-success">
+    Total: $<%= @order.total %>
+  </div>
+
+  <%= link_to 'Volver al inicio', orders_path, class: "btn btn-primary" %>
+</div>

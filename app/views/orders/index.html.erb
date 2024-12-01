@@ -1,14 +1,90 @@
-<p style="color: green"><%= notice %></p>
+<div class="container mt-4">
+  <!-- Barra de búsqueda y botón de filtros -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <input type="text" class="form-control w-50" placeholder="Buscar productos..." id="product-search">
+    <%= link_to image_tag("tickes.png", alt: "Filtro", width: 24), orders_path(show_filters: !params[:show_filters]), class: "btn btn-outline-secondary ml-2" %>
+  </div>
 
-<h1>Orders</h1>
+  <!-- Grid de productos -->
+  <div class="row" id="products-grid">
+    <% @products.each do |product| %>
+      <div class="col-md-3 mb-4">
+        <div class="card text-center">
+          <% if product.image.present? %>
+            <img src="<%= product.image %>" class="card-img-top" alt="<%= product.name %>">
+          <% else %>
+            <div class="card-img-placeholder bg-light d-flex align-items-center justify-content-center" style="height: 150px;">
+              <span class="text-muted">Sin imagen</span>
+            </div>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= product.name %></h5>
+            <p class="card-text">$<%= '%.2f' % product.price %></p>
+            <!-- Controles de cantidad -->
+            <div class="input-group justify-content-center">
+              <button class="btn btn-outline-secondary btn-sm quantity-btn" data-action="decrement" data-price="<%= product.price %>" data-id="<%= product.id %>">-</button>
+              <span class="mx-2 quantity-display" data-id="<%= product.id %>">0</span>
+              <button class="btn btn-outline-secondary btn-sm quantity-btn" data-action="increment" data-price="<%= product.price %>" data-id="<%= product.id %>">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
-<div id="orders">
-  <% @orders.each do |order| %>
-    <%= render order %>
-    <p>
-      <%= link_to "Show this order", order %>
-    </p>
-  <% end %>
+  <!-- Barra de Total -->
+  <div class="d-flex justify-content-between align-items-center bg-light p-3 mt-4">
+    <span class="h4">Total: $<span id="total-amount">0.00</span></span>
+<%= link_to "Go to Summary", summary_order_path(order.id), class: "btn btn-primary btn-lg" %>
+  </div>
 </div>
 
-<%= link_to "New order", new_order_path %>
+<script>
+  // Variables para el total y cantidades
+  let totalAmount = 0;
+  const quantities = {};
+
+  // Actualizar la vista del total
+  function updateTotal() {
+    document.getElementById('total-amount').textContent = totalAmount.toFixed(2);
+  }
+
+  // Escuchar eventos de clic en los botones de cantidad
+  document.querySelectorAll('.quantity-btn').forEach(button => {
+    button.addEventListener('click', event => {
+      const action = button.getAttribute('data-action');
+      const productId = button.getAttribute('data-id');
+      const price = parseFloat(button.getAttribute('data-price'));
+      const display = document.querySelector(`.quantity-display[data-id="${productId}"]`);
+
+      if (!quantities[productId]) {
+        quantities[productId] = 0;
+      }
+
+      // Incrementar o decrementar la cantidad
+      if (action === 'increment') {
+        quantities[productId] += 1;
+        totalAmount += price;
+      } else if (action === 'decrement' && quantities[productId] > 0) {
+        quantities[productId] -= 1;
+        totalAmount -= price;
+      }
+
+      // Actualizar la vista
+      display.textContent = quantities[productId];
+      updateTotal();
+    });
+  });
+
+  // Función para calcular el cambio en el resumen de la venta
+  function finalizeSale() {
+    const totalReceived = parseFloat(document.getElementById('total-received').value) || 0;
+    const change = totalReceived - totalAmount;
+
+    if (change >= 0) {
+      document.getElementById('change-amount').value = change.toFixed(2);
+    } else {
+      alert("El total recibido es menor que el monto a pagar.");
+    }
+  }
+</script>

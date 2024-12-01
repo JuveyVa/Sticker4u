@@ -279,6 +279,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activerecord (~> 7.1)
   bootsnap
   bootstrap (~> 5.0.0)
   capybara

@@ -1,0 +1,51 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Resumen de productos</h2>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Producto</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Precio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @order.order_items.any? %>
+        <% @order.order_items.each do |order_item| %>
+          <tr class="<%= 'table-danger' if order_item.quantity == 0 %>">
+            <td><%= order_item.product.name %></td>
+            <td class="text-center">
+              <div class="input-group justify-content-center">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" onclick="decreaseQuantity(<%= order_item.product.id %>)">-</button>
+                </div>
+                <input type="text" class="form-control text-center" value="<%= order_item.quantity %>" readonly style="width: 50px;">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" onclick="increaseQuantity(<%= order_item.product.id %>)">+</button>
+                </div>
+              </div>
+            </td>
+            <td>$<%= order_item.total_price %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="3" class="text-center">No hay productos en este pedido.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="bg-light p-3">
+    <h4>Total a pagar: $<%= @order.total_price %></h4>
+    <div class="form-group">
+      <label>Total Recibido:</label>
+      <input type="number" class="form-control" id="total-received">
+    </div>
+    <div class="form-group">
+      <label>Cambio:</label>
+      <input type="text" class="form-control" id="change-amount" readonly>
+    </div>
+    <button class="btn btn-success btn-lg btn-block" onclick="finalizeSale()">Finalizar venta</button>
+  </div>
+</div>

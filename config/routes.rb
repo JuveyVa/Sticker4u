@@ -4,8 +4,17 @@ Rails.application.routes.draw do
 
   # Otras rutas
   resources :tickets
-  resources :orders
-  resources :products
+  resources :orders do
+      member do
+    get 'summary'
+      end
+    collection do
+      get :confirmation
+      post :update_quantity
+    end
+  end
+  
+    resources :products
   resources :pruebas
 
   get 'startup/index'

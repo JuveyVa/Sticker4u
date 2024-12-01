@@ -10,6 +10,7 @@ class Product
   field :price, type: Float
   field :image, type: String 
 
+  has_many :order_items
   # Relación con Categoría
   belongs_to :categoria, class_name: "Categoria", optional: true
 
