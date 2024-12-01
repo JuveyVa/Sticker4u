@@ -1,27 +1,35 @@
-<h1>Panel de Control</h1>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-  <div>
-    <a href="<%= ventas_path %>">
-      <h2>Ventas</h2>
-      <img src="ventas.png" alt="Ventas" />
+<h1 class="text-center my-4">Panel de Control</h1>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+  <div class="col">
+    <a href="<%= ventas_path %>" class="card text-decoration-none">
+      <%= image_tag("ventas.png", class: "card-img-top", alt: "Ventas") %>
+      <div class="card-body text-center">
+        <h5 class="card-title">Ventas</h5>
+      </div>
     </a>
   </div>
-  <div>
-    <a href="<%= productos_path %>">
-      <h2>Productos</h2>
-      <img src="productos.png" alt="Productos" />
+  <div class="col">
+    <a href="<%= productos_path %>" class="card text-decoration-none">
+      <%= image_tag("products.png", class: "card-img-top", alt: "Productos") %>
+      <div class="card-body text-center">
+        <h5 class="card-title">Productos</h5>
+      </div>
     </a>
   </div>
-  <div>
-    <a href="<%= tickets_path %>">
-      <h2>Tickets</h2>
-      <img src="tickets.png" alt="Tickets" />
+  <div class="col">
+    <a href="<%= tickets_path %>" class="card text-decoration-none">
+      <%= image_tag("tickes.png", class: "card-img-top", alt: "Tickets") %>
+      <div class="card-body text-center">
+        <h5 class="card-title">Tickets</h5>
+      </div>
     </a>
   </div>
-  <div>
-    <a href="<%= dashboard_path %>">
-      <h2>Dashboard</h2>
-      <img src="dashboard.png" alt="Dashboard" />
+  <div class="col">
+    <a href="<%= dashboard_path %>" class="card text-decoration-none">
+      <%= image_tag("dash.png", class: "card-img-top", alt: "Dashboard") %>
+      <div class="card-body text-center">
+        <h5 class="card-title">Dashboard</h5>
+      </div>
     </a>
   </div>
 </div>
