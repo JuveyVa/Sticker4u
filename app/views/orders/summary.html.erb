@@ -5,27 +5,17 @@
     <thead>
       <tr>
         <th scope="col">Producto</th>
-        <th scope="col">Cantidad</th>
+        <th scope="col" class="text-center">Cantidad</th> <!-- Clase para centrar el encabezado -->
         <th scope="col">Precio</th>
       </tr>
     </thead>
     <tbody>
       <% if @order.order_items.any? %>
         <% @order.order_items.each do |order_item| %>
-          <tr class="<%= 'table-danger' if order_item.quantity == 0 %>">
+          <tr>
             <td><%= order_item.product.name %></td>
-            <td class="text-center">
-              <div class="input-group justify-content-center">
-                <div class="input-group-prepend">
-                  <button class="btn btn-outline-secondary" onclick="decreaseQuantity(<%= order_item.product.id %>)">-</button>
-                </div>
-                <input type="text" class="form-control text-center" value="<%= order_item.quantity %>" readonly style="width: 50px;">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" onclick="increaseQuantity(<%= order_item.product.id %>)">+</button>
-                </div>
-              </div>
-            </td>
-            <td>$<%= order_item.total_price %></td>
+            <td class="text-center"><%= order_item.quantity %></td> <!-- Clase para centrar valores -->
+            <td>$<%= '%.2f' % order_item.product.price %></td>
           </tr>
         <% end %>
       <% else %>
@@ -37,15 +27,38 @@
   </table>
 
   <div class="bg-light p-3">
-    <h4>Total a pagar: $<%= @order.total_price %></h4>
-    <div class="form-group">
-      <label>Total Recibido:</label>
-      <input type="number" class="form-control" id="total-received">
-    </div>
-    <div class="form-group">
-      <label>Cambio:</label>
-      <input type="text" class="form-control" id="change-amount" readonly>
-    </div>
-    <button class="btn btn-success btn-lg btn-block" onclick="finalizeSale()">Finalizar venta</button>
+  <h4>Total a pagar: $<%= number_to_currency(@total_amount, unit: '') %></h4>
+  <div class="form-group">
+  <label>Total Recibido:</label>
+  <div class="input-group">
+    <span class="input-group-text">$</span>
+    <input type="number" class="form-control" id="total-received" placeholder="0.00">
   </div>
 </div>
+  <div class="form-group">
+    <label>Cambio:</label>
+    <input type="text" class="form-control" id="change-amount" readonly>
+  </div>
+  <%= button_to "Finalizar Venta", finalize_sale_order_path(@order), method: :post, class: "btn btn-success btn-lg btn-block" %>
+</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const totalReceivedInput = document.getElementById("total-received");
+  const changeAmountInput = document.getElementById("change-amount");
+  const totalAmount = parseFloat(<%= @total_amount %>); // Total a pagar del backend
+
+  // Actualizar el campo "Cambio" cuando se modifica "Total Recibido"
+  totalReceivedInput.addEventListener("input", () => {
+    const totalReceived = parseFloat(totalReceivedInput.value) || 0;
+    const change = totalReceived - totalAmount;
+
+    if (change >= 0) {
+      changeAmountInput.value = "$ " + change.toFixed(2);
+    } else {
+      changeAmountInput.value = "$ " + "0.00";
+    }
+  });
+});
+</script>

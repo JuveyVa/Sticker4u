@@ -4,7 +4,7 @@ class Order
   
   has_many :order_items
   field :date, type: Date
-  field :total, type: BigDecimal
+  field :total, type: Float
   
   # Calcular el total del pedido sumando los precios de los OrderItems
   def total_amount
