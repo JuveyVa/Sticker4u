@@ -12,6 +12,12 @@ Rails.application.routes.draw do
       get :confirmation
       post :update_quantity
     end
+    collection do
+      post :create_order_and_summary
+    end
+    member do
+      post 'finalize_sale'
+    end
   end
   
     resources :products

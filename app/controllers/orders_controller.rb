@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy, :summary]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :summary, :finalize_sale]
 
   # Acción para mostrar el resumen de la orden
   def summary
@@ -7,6 +7,7 @@ class OrdersController < ApplicationController
       redirect_to orders_path, alert: 'Orden no encontrada.'
     else
       @total_amount = @order.total_amount
+      @order_items = @order.order_items
     end
   end
   
@@ -55,6 +56,32 @@ class OrdersController < ApplicationController
   def update_quantity
     @order = Order.find(params[:id])
     # Lógica para actualizar la cantidad de productos en la orden
+  end
+
+  def create_order_and_summary
+    quantities = JSON.parse(params[:quantities]) # Parsear el JSON de cantidades
+  @order = Order.create(date: Date.today, total: 0)
+
+  quantities.each do |product_id, quantity|
+    product = Product.find(product_id)
+    @order.order_items.create(product: product, quantity: quantity, total_price: product.price * quantity)
+  end
+
+  @order.update(total: @order.total_amount) # Actualizar el total de la orden
+  redirect_to summary_order_path(@order), notice: 'Orden creada y redirigida al resumen.'
+  end
+
+  def finalize_sale
+    ticket = Ticket.create(
+      date: @order.date,
+      total: @order.total
+    )
+
+    @order.order_items.each do |order_item|
+      ticket.products << order_item.product
+    end
+
+    redirect_to tickets_path, notice: "Venta finalizada y ticket creado con éxito."
   end
 
   private
