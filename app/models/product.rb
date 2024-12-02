@@ -19,28 +19,25 @@ class Product
   validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :inventory, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  # Total de tickets
-  def self.total_tickets
-    self.tickets.count
-    end
-
   # Sop(x): frecuencia relativa del producto
   def self.sop(product_id)
-    total_tickets = self.total_tickets
+    total_tickets = Ticket.total_tickets
     return 0 if total_tickets.zero?
 
     count = Ticket.where(product_ids: product_id).count
     (count.to_f / total_tickets).round(2)
   end
 
-   # Sop(x U n): frecuencia relativa conjunta de dos productos
+  # Sop(x U n): frecuencia relativa conjunta de dos productos
   def self.sop_union(product_id, other_product_id)
-    total_tickets = self.total_tickets
+    total_tickets = Ticket.total_tickets
     return 0 if total_tickets.zero?
 
     count = Ticket.where(:product_ids.all => [product_id, other_product_id]).count
     (count.to_f / total_tickets).round(2)
   end
+
+  # Número de ventas de este producto
   def sales_count
     Ticket.where(product_ids: self.id).count
   end
