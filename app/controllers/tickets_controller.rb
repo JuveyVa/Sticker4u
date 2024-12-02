@@ -6,42 +6,6 @@ class TicketsController < ApplicationController
     @tickets = Ticket.includes(:products)
   end
 
-  def show_products
-    ticket = Ticket.find(params[:id])
-    products = ticket.products
-  
-    data = products.map do |product|
-      sop_x = Product.sop(product.id) # Sop(x)
-  
-      recommendations = products.map do |other_product|
-        next if product.id == other_product.id # Evitar comparar el producto consigo mismo
-  
-        sop_union = Product.sop_union(product.id, other_product.id) # Sop(x U n)
-        confidence = sop_x.zero? ? 0 : ((sop_union.to_f / sop_x.to_f) * 100).round(2)
-
-        puts "Producto: #{product.name}"
-        puts "Sop(x): #{sop_x}"
-        puts "Sop(x U n): #{sop_union}"
-        puts "Confianza calculada: #{sop_x.zero? ? 0 : (sop_union / sop_x) * 100}"
-  
-        {
-          product: other_product.name,
-          sop_union: sop_union,
-          confidence: confidence
-        }
-      end.compact
-  
-      {
-        product: product.name,
-        sop_x: sop_x,
-        recommendations: recommendations
-      }
-    end
-    
-  
-    render json: data
-  end
-
   # GET /tickets/1 or /tickets/1.json
   def show
     @ticket = Ticket.includes(:products).find(params[:id])
@@ -94,6 +58,43 @@ class TicketsController < ApplicationController
       format.html { redirect_to tickets_path, status: :see_other, notice: "Ticket was successfully deleted." }
       format.json { head :no_content }
     end
+  end
+
+  # Mostar productos y por ticket y calcular su soporte con otros productos y su indice de confianza
+  def show_products
+    ticket = Ticket.find(params[:id])
+    products = ticket.products
+  
+    data = products.map do |product|
+      sop_x = Product.sop(product.id) 
+  
+      recommendations = products.map do |other_product|
+        next if product.id == other_product.id 
+  
+        sop_union = Product.sop_union(product.id, other_product.id) 
+        confidence = sop_x.zero? ? 0 : ((sop_union.to_f / sop_x.to_f) * 100).round(2)
+
+        puts "Producto: #{product.name}"
+        puts "Sop(x): #{sop_x}"
+        puts "Sop(x U n): #{sop_union}"
+        puts "Confianza calculada: #{sop_x.zero? ? 0 : (sop_union / sop_x) * 100}"
+  
+        {
+          product: other_product.name,
+          sop_union: sop_union,
+          confidence: confidence
+        }
+      end.compact
+  
+      {
+        product: product.name,
+        sop_x: sop_x,
+        recommendations: recommendations
+      }
+    end
+    
+
+    render json: data
   end
 
   private

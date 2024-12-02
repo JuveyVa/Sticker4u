@@ -26,20 +26,61 @@
 
       <div class="mb-3">
         <label for="products" class="form-label fw-bold">Products</label>
-        <div id="products">
-          <% @products.each do |product| %>
-            <div class="form-check">
-              <%= check_box_tag "ticket[product_ids][]", product.id, ticket.product_ids.include?(product.id), class: "form-check-input", id: "product_#{product.id}" %>
-              <%= label_tag "product_#{product.id}", product.name, class: "form-check-label" %>
-            </div>
-          <% end %>
-        </div>
+          <div id="products">
+            <% @products.each do |product| %>
+              <div class="form-check d-flex align-items-center mb-2">
+                <%= check_box_tag "ticket[product_ids][]", product.id, ticket.product_ids.include?(product.id), class: "form-check-input product-checkbox", id: "product_#{product.id}", data: { price: product.price } %>
+                <%= label_tag "product_#{product.id}", "#{product.name} - #{number_to_currency(product.price)}", class: "form-check-label ms-2 me-2" %>
+                <%= number_field_tag "quantity_#{product.id}", 1, class: "form-control quantity-input", data: { price: product.price, target_checkbox: "product_#{product.id}" }, min: 1, style: "width: 70px;" %>
+              </div>
+            <% end %>
+          </div>
       </div>
 
       <div class="mt-4 text-center">
         <%= form.submit "Save Ticket", class: "btn btn-success" %>
       </div>
+
     </div>
   </div>
 <% end %>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const checkboxes = document.querySelectorAll(".product-checkbox");
+  const quantityInputs = document.querySelectorAll(".quantity-input");
+  const totalField = document.querySelector("#ticket_total");
+
+  const updateTotal = () => {
+    let total = 0;
+
+    checkboxes.forEach((checkbox) => {
+      const targetQuantity = document.querySelector(`.quantity-input[data-target-checkbox="${checkbox.id}"]`);
+
+      if (checkbox.checked) {
+        const price = parseFloat(checkbox.dataset.price || 0);
+        const quantity = parseInt(targetQuantity.value || 1);
+        total += price * quantity;
+      }
+    });
+
+    totalField.value = total.toFixed(2);
+  };
+
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", (event) => {
+      const targetQuantity = document.querySelector(`.quantity-input[data-target-checkbox="${checkbox.id}"]`);
+      targetQuantity.disabled = !event.target.checked;
+      updateTotal();
+    });
+  });
+
+  quantityInputs.forEach((input) => {
+    input.addEventListener("input", updateTotal);
+  });
+
+  // Inicializa el total al cargar la página
+  updateTotal();
+});
+</script>
 
