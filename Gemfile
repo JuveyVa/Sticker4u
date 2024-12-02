@@ -35,6 +35,8 @@ gem "mongoid"
 gem 'chartkick'
 gem 'groupdate'
 
+gem 'activerecord', '~> 7.1'
+
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"

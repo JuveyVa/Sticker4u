@@ -10,6 +10,7 @@ class Product
   field :price, type: Float
   field :image, type: String 
 
+  has_many :order_items
   # Relación con Categoría
   belongs_to :categoria, class_name: "Categoria", optional: true
 
@@ -20,8 +21,8 @@ class Product
 
   # Total de tickets
   def self.total_tickets
-    Ticket.count
-  end
+    self.tickets.count
+    end
 
   # Sop(x): frecuencia relativa del producto
   def self.sop(product_id)
@@ -39,5 +40,8 @@ class Product
 
     count = Ticket.where(:product_ids.all => [product_id, other_product_id]).count
     (count.to_f / total_tickets).round(2)
+  end
+  def sales_count
+    Ticket.where(product_ids: self.id).count
   end
 end
